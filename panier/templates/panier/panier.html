@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+{% block titre%} Consulter votre panier {% endblock titre%}
+{% block contenu %}
+  <div class="container mt-4">
+  <table class="table table-bordered table-hover table table-striped table table-condensed  table table-responsive align-middle text-center">
+    <thead class="table-dark">
+      <tr>
+        <th>Image</th>
+        <th>Produit</th>
+        <th>Quantite</th>
+        <th>Supprimer</th>
+        <th>Prix unitaire</th>
+        <th>Prix</th>
+      </tr>
+    </thead>
+    <tbody>
+     {% for element in panier %}
+      {% with produit=element.produit %}  
+        <tr>
+            <td>
+             <a href="{{produit.get_ablosute_url}}"><img src="{{produit.image.url}}" style="width: 100px; height: 100px;" alt=""></a>
+            </td>
+            <td>{{produit.nom}}</td>
+            <td>
+             <form action="{% url 'panier:ajouter_au_panier' produit.id %}" method="post">
+               {{element.actualiser_quantite_form.quantite }}
+               {{element.actualiser_quantite_form.modifier }}
+              <input type="submit" value="Actualiser" class="btn btn-success mt-2">
+              {% csrf_token %}
+            </td>
+            <td>
+            <form action="{% url 'panier:supprimer_panier' produit.id %}" method="post">
+             <input type="submit" value="Supprimer" class="btn btn-danger mt-2">
+            {% csrf_token %}
+            </form>
+            </td>
+            <td>{{element.prix}} FCFA</td>
+            <td>{{element.prix_total}} FCFA</td>
+        </tr>
+      {% endwith %}    
+    {% endfor %}
+    
+    <tr class="total">
+     <td>Total</td>
+     <td colspan="4"></td>
+     <td class="num">{{panier.get_prix_total}}</td>
+    </tr>
+    </tbody>
+  </table>
+  <p class="text-right">
+   <a href="{% url 'boutique:produits' %}" class="btn btn-success m">Continuer a Acheter</a>
+   <a href="{% url 'commande:creer_commande' %}" class="btn btn-warning ">Commande</a>
+ </p>
+</div>
+{% endblock %}

@@ -1,0 +1,24 @@
+.sideBar {
+  background-color: rgb(42, 40, 40);
+  min-height: 100%;
+  padding: 20px;
+}
+
+.sideBar a {
+  color: #ffffff;
+  text-decoration: none;
+}
+
+.sideBar a:hover,
+.sideBar li.selected > a {
+  color: #28a745;
+  text-decoration: none;
+}
+
+.sideBar li {
+  margin-bottom: 0.75rem;
+}
+
+.sideBar li.selected {
+  font-weight: 600;
+}

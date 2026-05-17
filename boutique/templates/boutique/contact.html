@@ -1,0 +1,62 @@
+{% extends "base.html" %}
+{% block titre %}Contact{% endblock titre %}
+{% block contenu %}
+<div class="container py-5">
+  <div class="row justify-content-center">
+    <div class="col-lg-8">
+      <div class="card shadow-sm border-0">
+        <div class="card-body">
+          <h1 class="mb-4">Contactez-nous</h1>
+          <p class="lead">Nous sommes disponibles pour répondre à vos questions sur nos produits, commandes et livraisons.</p>
+
+          <div class="row gy-4 mt-4">
+            <div class="col-md-6">
+              <div class="p-4 border rounded-3">
+                <h5>Adresse</h5>
+                <p>123 Rue du Commerce, Dakar, Sénégal</p>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="p-4 border rounded-3">
+                <h5>Téléphone</h5>
+                <p>+221 77 123 45 67</p>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="p-4 border rounded-3">
+                <h5>Email</h5>
+                <p>contact@monboutique.sn</p>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="p-4 border rounded-3">
+                <h5>Horaires</h5>
+                <p>Lundi - Vendredi : 8h00 - 18h00</p>
+              </div>
+            </div>
+          </div>
+
+          <hr class="my-4">
+
+          <form method="post" action="#">
+            {% csrf_token %}
+            <div class="mb-3">
+              <label for="name" class="form-label">Nom</label>
+              <input type="text" class="form-control" id="name" placeholder="Votre nom">
+            </div>
+            <div class="mb-3">
+              <label for="email" class="form-label">Email</label>
+              <input type="email" class="form-control" id="email" placeholder="Votre email">
+            </div>
+            <div class="mb-3">
+              <label for="message" class="form-label">Message</label>
+              <textarea class="form-control" id="message" rows="5" placeholder="Votre message"></textarea>
+            </div>
+            <button type="submit" class="btn btn-success">Envoyer</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

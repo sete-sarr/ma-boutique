@@ -1,0 +1,80 @@
+﻿{% extends "base.html" %}
+{% block titre %}{% if categorie %}{{ categorie.nom }}{% else %}Tous les produits{% endif %}{% endblock titre %}
+{% block contenu %}
+<div class="row">
+  <div class="col-md-3 sideBar">
+    <h1 class="py-4 text-white">Catégories</h1>
+    <ul class="list-unstyled">
+      <li class="py-2{% if not categorie %} selected{% endif %}">
+        <a href="{% url 'boutique:produits' %}">Tous les produits</a>
+      </li>
+      {% for c in categories %}
+        <li class="py-2{% if categorie and c.slug == categorie.slug %} selected{% endif %}">
+          <a href="{{ c.get_absolute_url }}">{{ c.nom }}</a>
+        </li>
+      {% endfor %}
+    </ul>
+  </div>
+
+  <div class="col-md-9">
+    <h1 class="text-center py-4">{% if categorie %}{{ categorie.nom }}{% else %}Tous les produits{% endif %}</h1>
+    <div class="row gy-4">
+      {% if produits.object_list %}
+        {% for produit in produits %}
+          <div class="col-md-6">
+            <div class="card h-100 shadow-sm">
+              <img src="{{ produit.image.url }}" class="card-img-top img-thumbnail" alt="{{ produit.nom }}">
+              <div class="card-body">
+                <h5 class="card-title">{{ produit.nom }}</h5>
+                <p class="card-text text-muted">{{ produit.description|truncatewords:15 }}</p>
+                <h6 class="fw-bold text-success">{{ produit.prix }} FCFA</h6>
+              </div>
+              <div class="card-footer bg-white border-0 d-flex justify-content-between">
+                <a href="{% url 'boutique:produit_detail' produit.id %}" class="btn btn-outline-primary btn-sm">Voir</a>
+              </div>
+            </div>
+          </div>
+        {% endfor %}
+      {% else %}
+        <div class="col-12">
+          <div class="alert alert-warning">Aucun produit trouvé pour cette catégorie.</div>
+        </div>
+      {% endif %}
+    </div>
+
+    {% if produits.has_other_pages %}
+      <nav aria-label="Pagination des produits" class="mt-4">
+        <ul class="pagination justify-content-center">
+          {% if produits.has_previous %}
+            <li class="page-item">
+              <a class="page-link" href="?page={{ produits.previous_page_number }}">Précédent</a>
+            </li>
+          {% else %}
+            <li class="page-item disabled"><span class="page-link">Précédent</span></li>
+          {% endif %}
+
+          {% for num in produits.paginator.page_range %}
+            {% if num == produits.number %}
+              <li class="page-item active" aria-current="page">
+                <span class="page-link">{{ num }}</span>
+              </li>
+            {% else %}
+              <li class="page-item">
+                <a class="page-link" href="?page={{ num }}">{{ num }}</a>
+              </li>
+            {% endif %}
+          {% endfor %}
+
+          {% if produits.has_next %}
+            <li class="page-item">
+              <a class="page-link" href="?page={{ produits.next_page_number }}">Suivant</a>
+            </li>
+          {% else %}
+            <li class="page-item disabled"><span class="page-link">Suivant</span></li>
+          {% endif %}
+        </ul>
+      </nav>
+    {% endif %}
+  </div>
+</div>
+{% endblock %}

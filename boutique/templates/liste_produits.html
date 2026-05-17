@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+{% block titre%}{% if categorie %} categorie.nom {% endif %} {% endblock titre%}
+{% block lateral %}
+ <ul>
+    <h1 > Categories</h1>
+    <li {% if not categorie %} class='selected' {% endif %}>
+        <a href="{% url 'boutique:liste_produit' %}">tous les produits</a>
+    </li>
+    {% for c in categories %}
+      
+       <li {% if c.slug == categorie.slug %} class='selected' {% endif %}>
+        <a href={{c.get_absolute_url}}>{{c.nom}}</a>
+       </li>
+    {% endfor %} 
+     
+
+ </ul>
+ 
+ 
+{% endblock %}
+{% block contenu %}
+  <div class="row">
+  <h1>{% if categorie %} {{categorie.nom}}{%  else%} tous les produits{% endif %}</li></h1>
+  {% for produit in produits %}
+    <div class="col-md-6 mb-4 col-sm-12">
+  <div class="card h-100 shadow-sm">
+    
+    <!-- Image du produit -->
+    <img src="{{ produit.image.url }}" class="card-img-top" alt="{{ produit.nom }}">
+
+    <div class="card-body">
+      <h5 class="card-title">{{ produit.nom }}</h5>
+      <p class="card-text text-muted">
+        {{ produit.description|truncatewords:15 }}
+      </p>
+
+      <h6 class="fw-bold text-success">
+        {{ produit.prix }} FCFA
+      </h6>
+    </div>
+
+    <div class="card-footer bg-white border-0 d-flex justify-content-between">
+      <a href="{% url 'boutique:produit_detail' produit.id %}" class="btn btn-outline-primary btn-sm">
+        Voir
+      </a>
+      
+    </div>
+
+  </div>
+</div>
+
+  {% endfor %}
+</div>   
+{% endblock %}

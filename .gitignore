@@ -1,0 +1,14 @@
+# Environnement
+.env
+
+# Python
+__pycache__/
+*.pyc
+venv/
+db.sqlite3
+
+# Django
+staticfiles/
+media/
+
+cles a conserver.txt

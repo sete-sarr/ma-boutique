@@ -1,0 +1,142 @@
+{% extends "base.html" %}
+
+{% block titre %}
+Régler la commande
+{% endblock %}
+
+{% block contenu %}
+<div class="container my-5">
+  <div class="row g-4">
+
+    <!-- FORMULAIRE À GAUCHE -->
+    <div class="col-md-7">
+      <div class="card shadow-sm border-0">
+        <div class="card-header bg-success text-white">
+          <h5 class="mb-0">📦 Informations de livraison</h5>
+        </div>
+
+        <div class="card-body">
+          <form method="post">
+            {% csrf_token %}
+
+            <!-- Prénom -->
+            <div class="row mb-3">
+              <label class="col-sm-4 col-form-label fw-semibold" style="display: block;">
+                Prénom
+              </label>
+              <div class="col-sm-8">
+                {{ form.prenom }}
+                {{ form.prenom.errors }}
+              </div>
+            </div>
+
+            <!-- Nom -->
+            <div class="row mb-3">
+              <label class="col-sm-4 col-form-label fw-semibold">
+                Nom
+              </label>
+              <div class="col-sm-8">
+                {{ form.nom }}
+                {{ form.nom.errors }}
+              </div>
+            </div>
+
+            <!-- Email -->
+            <div class="row mb-3">
+              <label class="col-sm-4 col-form-label fw-semibold">
+                Email
+              </label>
+              <div class="col-sm-8">
+                {{ form.email }}
+                {{ form.email.errors }}
+              </div>
+            </div>
+
+            <!-- Code postal -->
+            <div class="row mb-3">
+              <label class="col-sm-4 col-form-label fw-semibold">
+                Code postal
+              </label>
+              <div class="col-sm-8">
+                {{ form.code_postal }}
+                {{ form.code_postal.errors }}
+              </div>
+            </div>
+
+
+            <!-- Adresse -->
+            <div class="row mb-3">
+              <label class="col-sm-4 col-form-label fw-semibold">
+                Adresse
+              </label>
+              <div class="col-sm-8">
+                {{ form.adresse }}
+                {{ form.adresse.errors }}
+              </div>
+            </div>
+
+            <!-- Ville -->
+            <div class="row mb-3">
+              <label class="col-sm-4 col-form-label fw-semibold">
+                Ville
+              </label>
+              <div class="col-sm-8">
+                {{ form.ville }}
+                {{ form.ville.errors }}
+              </div>
+            </div>
+
+            
+
+            <!-- Bouton -->
+            <div class="row">
+              <div class="col-sm-8 offset-sm-4">
+                <button type="submit" class="btn btn-success btn-lg w-100">
+                  ✅ Confirmer la commande
+                </button>
+              </div>
+            </div>
+
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <!-- RÉSUMÉ À DROITE -->
+    <div class="col-md-5">
+      <div class="card shadow-sm border-0">
+        <div class="card-header bg-dark text-white">
+          <h5 class="mb-0">🛒 Résumé de la commande</h5>
+        </div>
+
+        <div class="card-body">
+          <table class="table table-borderless mb-3">
+            <tbody>
+              {% for item in panier %}
+              <tr>
+                <td>
+                  <strong>{{ item.quantite }} ×</strong> {{ item.produit.nom }}
+                </td>
+                <td class="text-end fw-semibold">
+                  {{ item.prix_total }} FCFA
+                </td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+
+          <hr>
+
+          <div class="d-flex justify-content-between">
+            <strong>Total</strong>
+            <strong class="fs-5 text-danger">
+              {{ panier.get_prix_total }} FCFA
+            </strong>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+{% endblock %}

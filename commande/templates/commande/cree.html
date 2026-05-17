@@ -1,0 +1,65 @@
+{% extends "base.html" %}
+
+{% block titre %}
+Commande confirmée
+{% endblock %}
+
+{% block contenu %}
+<div class="container my-5">
+
+  <div class="row justify-content-center">
+    <div class="col-md-8">
+
+      <div class="card shadow-lg border-0 text-center">
+
+        <div class="card-header bg-success text-white py-4">
+          <h3 class="mb-0">🎉 Merci pour votre commande !</h3>
+        </div>
+
+        <div class="card-body py-5">
+
+          <div class="mb-4">
+            <i class="bi bi-check-circle-fill text-success" style="font-size: 4rem;"></i>
+          </div>
+
+          <h5 class="mb-3">
+            Votre commande a été enregistrée avec succès
+          </h5>
+
+          <p class="text-muted">
+            Numéro de commande :
+            <strong>{{ commande.id }}</strong>
+          </p>
+
+          <hr class="my-4">
+
+          <p>
+            📦 Nous préparons votre commande et vous serez contacté(e) pour la livraison.
+          </p>
+
+          <p class="text-muted">
+            Un email de confirmation vous sera envoyé si nécessaire.
+          </p>
+
+          <div class="d-flex justify-content-center gap-3 mt-4">
+            <a href="{% url 'boutique:liste_produit' %}" class="btn btn-outline-success">
+              🛍️ Continuer les achats
+            </a>
+            <a href="#" class="btn btn-outline-dark">
+              🛒 Voir le panier
+            </a>
+          </div>
+
+        </div>
+
+        <div class="card-footer text-muted small">
+          Merci de votre confiance ❤️
+        </div>
+
+      </div>
+
+    </div>
+  </div>
+
+</div>
+{% endblock %}

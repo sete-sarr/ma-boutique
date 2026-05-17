@@ -1,0 +1,133 @@
+{% extends "admin/base_site.html" %}
+
+{% block title %}
+Commande {{ commande.id }} | {{ block.super }}
+{% endblock %}
+
+{% block breadcrumbs %}
+<div class="breadcrumbs">
+    <a href="{% url 'admin:index' %}">Home</a>
+    &rsaquo;
+    <a href="{% url 'admin:commande_commande_changelist' %}">Commandes</a>
+    &rsaquo;
+    <a href="{% url 'admin:commande_commande_change' commande.id %}">
+        Commande {{ commande.id }}
+    </a>
+    &rsaquo; Détail
+</div>
+{% endblock %}
+
+{% block content %}
+
+<div class="module">
+    <h1>Commande n° {{ commande.id }}</h1>
+
+    <ul class="object-tools">
+        <li>
+            <a href="#" onclick="window.print(); return false;">
+                Imprimer
+            </a>
+        </li>
+    </ul>
+
+    <table class="table">
+        <tr>
+            <th>Créée le</th>
+            <td>{{ commande.date_creation }}</td>
+        </tr>
+
+        <tr>
+            <th>Client</th>
+            <td>{{ commande.prenom }} {{ commande.nom }}</td>
+        </tr>
+
+        <tr>
+            <th>Email</th>
+            <td>
+                <a href="mailto:{{ commande.email }}">
+                    {{ commande.email }}
+                </a>
+            </td>
+        </tr>
+
+        <tr>
+            <th>Adresse</th>
+            <td>
+                {{ commande.adresse }},
+                {{ commande.code_postal }} {{ commande.ville }}
+            </td>
+        </tr>
+
+        <tr>
+            <th>Montant total</th>
+            <td><strong>{{ commande.get_prix_total }}</strong></td>
+        </tr>
+
+        <tr>
+            <th>Statut</th>
+            <td>
+                {% if commande.paye %}
+                    <span style="color: green; font-weight: bold;">
+                        Payée
+                    </span>
+                {% else %}
+                    <span style="color: red;">
+                        Paiement en attente
+                    </span>
+                {% endif %}
+            </td>
+        </tr>
+
+        <tr>
+            <th>Paiement Stripe</th>
+            <td>
+                {% if commande.id_stripe %}
+                    <a href="{{ commande.get_stripe_url }}" target="_blank">
+                        {{ commande.id_stripe }}
+                    </a>
+                {% else %}
+                    —
+                {% endif %}
+            </td>
+        </tr>
+    </table>
+</div>
+
+<div class="module">
+    <h2>Produits commandés</h2>
+
+    <table style="width: 100%;">
+        <thead>
+            <tr>
+                <th>Produit</th>
+                <th>Prix</th>
+                <th>Quantité</th>
+                <th>Total</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            {% for item in commande.lignes.all %}
+                <tr class="row{% cycle '1' '2' %}">
+                    <td>{{ item.produit.nom }}</td>
+                    <td class="num">{{ item.prix }}</td>
+                    <td class="num">{{ item.quantite }}</td>
+                    <td class="num">{{ item.get_prix }}</td>
+                </tr>
+            {% empty %}
+                <tr>
+                    <td colspan="4">Aucun produit</td>
+                </tr>
+            {% endfor %}
+
+            <tr class="total">
+                <td colspan="3"><strong>Total</strong></td>
+                <td class="num">
+                    <strong>{{ commande.get_prix_total }}</strong>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+{% endblock %}
